@@ -1,0 +1,13 @@
+{
+  "name": "extension-revamp",
+  "version": "1.0.0",
+  "description": "Extension for scrape candidates profiles from linkedin",
+  "main": "index.js",
+  "author": "David <nundavid99@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
