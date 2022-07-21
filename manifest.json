@@ -1,0 +1,27 @@
+{
+	"name": "Nimbl Candidate Extension V2",
+	"description": "Extension for scrape candidates profiles from linkedin",
+	"version": "1.0.0",
+	"key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuL4mYNtScpPh0RZCE0ckqs9R34hePtd/WmgZjF9RiJHVf10Arq5CtH36hXjUm5q5i8dVFcroPNEfI5ppnbRqXKNMfK24AVTb7+M8l4nLnygRp1e4Fj3EKwjo7EzNp0vgHJeITXTxADGwBXzXc8kc39PuISRIQnqkqx7rTgDHAjR2xlk++zVnJQMyP3bMBi+oCOTZzzbP8wft1iW7aOHVQh3q2MGtFwJq7sDoSD2vrluQxCARjmaOIlIkzXy28oOPjwRpxWGZziX3BaRTeKDoyIblsCAnYAOhhcFqoh1AeoEMg06H/CBWpdOnnEQdgO587BymKYbxdo5VM1cNBjUfPQIDAQAB",
+	"manifest_version": 3,
+	"background": {
+		"service_worker": "background.js"
+	},
+	"permissions": [
+		"identity",
+		"identity.email"
+	],
+	"action": {
+		"default_popup": "popup.html",
+		"default_icon": {
+			"16": "imgs/logo16.png",
+			"48": "imgs/logo32.png",
+			"128": "imgs/logo120.png"
+		}
+	},
+	"icons": {
+		"16": "imgs/logo16.png",
+		"48": "imgs/logo32.png",
+		"128": "imgs/logo120.png"
+	}
+}
