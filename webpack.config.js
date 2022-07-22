@@ -9,19 +9,28 @@ module.exports = {
 	devtool: 'cheap-module-source-map',
 	entry: {
 		popup: './src/popup/popup.tsx',
-		content: './src/content/content.ts',
+		content: './src/content/content.tsx',
 		background: './src/background/background.js',
 	},
 	output: {
 		filename: '[name].js',
 		path: resolve(__dirname, 'build'),
 	},
+	resolve: {
+		extensions: ['.js', '.jsx', '.ts', '.tsx', '.scss'],
+	},
 	module: {
-		rules: [{
-			test: /\.ts(x?)$/,
-			exclude: /node_modules/,
-			use: 'ts-loader',
-		}],
+		rules: [
+			{
+				test: /\.ts(x?)$/,
+				exclude: /node_modules/,
+				use: 'ts-loader',
+			},
+			{
+				test: /\.scss$/,
+				use: ['style-loader','css-loader','sass-loader']
+			},
+		],
 	},
 	plugins: [
 		new HtmlWebpackPlugin({ template: 'src/popup/popup.html', filename: 'popup.html', chunks: ['popup'] }),

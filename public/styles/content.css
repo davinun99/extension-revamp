@@ -1,0 +1,14 @@
+div#rcr-anchor {
+	background-color:#f3f3f3;
+	z-index: 999;
+	height: 100%;
+	position: fixed;
+	width: 400PX;
+	float: right;
+	display: block;
+	font-size: 14px;
+	box-shadow: -1px -2px 17px #fff;
+	transition: all 0.5s;
+	right: 0px;
+	top: 0px;
+}
