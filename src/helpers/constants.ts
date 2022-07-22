@@ -1,0 +1,1 @@
+export const BACKEND_URL:string = 'https://ckk9quvsne.execute-api.eu-west-2.amazonaws.com/api';
