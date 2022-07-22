@@ -1,5 +1,6 @@
 // @flow
 import { configureStore } from '@reduxjs/toolkit';
+import AuthReducer from './auth/reducers';
 // import { applyMiddleware } from 'redux';
 // import createSagaMiddleware from 'redux-saga';
 // import sagas from './sagas';
@@ -14,7 +15,8 @@ export function createAppStore() {
 
     // const store = createStore(reducers, initialState, composeEnhancers(applyMiddleware(...middlewares)));
 	const store = configureStore({ reducer: {
-		candidate: CandidateReducer
+		auth: AuthReducer,
+		candidate: CandidateReducer,
 	} });
     // sagaMiddleware.run(sagas);
     return store;

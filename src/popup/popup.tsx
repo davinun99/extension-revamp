@@ -6,7 +6,7 @@ interface IProps {
 };
 export const Popup: FC<IProps> = () => {
 	return (
-		<div>PopupPage</div>
+		<div>Nimbl Extension popup</div>
 	);
 };
 
