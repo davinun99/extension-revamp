@@ -1,4 +1,8 @@
-const INIT_STATE = {};
+import { LOGIN_PAGE } from "./constants";
+
+const INIT_STATE = {
+	currentPage: LOGIN_PAGE,
+};
 // type ACTIONTYPE =
 // 	| { type: "increment"; payload: number }
 // 	| { type: "decrement"; payload: string };
