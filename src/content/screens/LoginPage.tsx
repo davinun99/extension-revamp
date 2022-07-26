@@ -1,11 +1,28 @@
-import React from 'react';
-
-const LoginPage = () => {
+import React, { FC } from 'react';
+import { connect } from 'react-redux';
+import { Container, Button } from 'reactstrap';
+import { RootState } from '../redux/store';
+import { login } from '../redux/auth/actions';
+interface IProps {
+	login: Function, //from redux
+};
+const LoginPage:FC<IProps> = (
+	{ login }
+) => {
+	const handleLogin = () => {
+		login();
+	}
 	return (
-		<main>
-			Login!
-		</main>
+		<Container className='loginContainer'>
+			<Button color='primary' className='extensionBtn' onClick={handleLogin}>
+				Login
+			</Button>
+		</Container>
 	)
 }
-
-export default LoginPage;
+const mapStateToProps = (state: RootState) => {
+	return {  };
+}
+export default connect(mapStateToProps, {
+	login
+})(LoginPage);
