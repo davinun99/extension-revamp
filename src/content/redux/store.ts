@@ -10,6 +10,7 @@ import AuthReducer from './auth/reducers';
 
 //REDUCERS: 
 import CandidateReducer from './candidate/reducers';
+import NavReducer from './nav/reducers';
 export function createAppStore() {
     // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -17,6 +18,7 @@ export function createAppStore() {
 	const store = configureStore({ reducer: {
 		auth: AuthReducer,
 		candidate: CandidateReducer,
+		nav: NavReducer,
 	} });
     // sagaMiddleware.run(sagas);
     return store;

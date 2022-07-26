@@ -5,6 +5,7 @@ const INIT_STATE = {
     nimblUser: null,
     loading: false,
 	errorMessage: '',
+	isAuthenticated: false,
 };
 // type ACTIONTYPE =
 // 	| { type: "increment"; payload: number }
@@ -18,6 +19,7 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 				nimblUser: null,
 				user: null,
 				errorMessage: '',
+				isAuthenticated: false,
 			};
 		case LOGIN_ERROR:
 			return {
@@ -26,6 +28,7 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 				nimblUser: null,
 				user: null,
 				loading: false,
+				isAuthenticated: false,
 			};
 		case LOGIN_SUCCESS:
 			return {
@@ -33,6 +36,7 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 				nimblUser: action.payload,
 				user: null,
 				loading: false,
+				isAuthenticated: true,
 			};
 		default:
 			return state;
