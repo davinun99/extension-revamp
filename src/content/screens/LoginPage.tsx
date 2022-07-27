@@ -2,15 +2,16 @@ import React, { FC } from 'react';
 import { connect } from 'react-redux';
 import { Container, Button } from 'reactstrap';
 import { RootState } from '../redux/store';
-import { login } from '../redux/auth/actions';
+import { loginAction } from '../redux/auth/actions';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 interface IProps {
-	login: Function, //from redux
+	loginAction: Function, //from redux
 };
 const LoginPage:FC<IProps> = (
-	{ login }
+	{ loginAction }
 ) => {
 	const handleLogin = () => {
-		login();
+		loginAction();
 	}
 	return (
 		<Container className='loginContainer'>
@@ -23,6 +24,7 @@ const LoginPage:FC<IProps> = (
 const mapStateToProps = (state: RootState) => {
 	return {  };
 }
-export default connect(mapStateToProps, {
-	login
-})(LoginPage);
+const mapDispatchToProps = (dispatch :ThunkDispatch<any, any, AnyAction>) => ({
+	loginAction: () => dispatch(loginAction())
+});
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
