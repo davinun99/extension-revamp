@@ -7,10 +7,8 @@ const INIT_STATE = {
 // type ACTIONTYPE =
 // 	| { type: "increment"; payload: number }
 // 	| { type: "decrement"; payload: string };
-const NavReducer = (state = INIT_STATE, action: AnyAction) => {
-	switch(action.type) {
-		default:
-			return state;
-	}
-}
+const NavReducer = (state = INIT_STATE, action: AnyAction) => ({
+	...state,
+	currentPage: action.type,
+})
 export default NavReducer;
