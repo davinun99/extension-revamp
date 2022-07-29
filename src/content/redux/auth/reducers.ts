@@ -2,7 +2,7 @@ import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS } from "./constants";
 
 const INIT_STATE = {
 	user: null,
-    nimblUser: null,
+    authData: null,
     isLoading: false,
 	errorMessage: '',
 	isAuthenticated: false,
@@ -16,7 +16,7 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 			return {
 				...state,
 				isLoading: true,
-				nimblUser: null,
+				authData: null,
 				user: null,
 				errorMessage: '',
 				isAuthenticated: false,
@@ -25,7 +25,7 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 			return {
 				...state,
 				errorMessage: action.payload,
-				nimblUser: null,
+				authData: null,
 				user: null,
 				isLoading: false,
 				isAuthenticated: false,
@@ -33,7 +33,7 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 		case LOGIN_SUCCESS:
 			return {
 				...state,
-				nimblUser: action.payload,
+				authData: action.payload,
 				user: null,
 				isLoading: false,
 				isAuthenticated: true,
