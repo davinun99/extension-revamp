@@ -1,11 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Swal from 'sweetalert2';
+import { isCandidateUrl } from '../helpers';
 import { GET_AUTH_MESSAGE, LOGIN_MESSAGE } from '../helpers/constants';
 import { loginSuccess } from './redux/auth/actions';
-import { goToHome } from './redux/nav/actions';
-import { HOME_PAGE, LOGIN_PAGE } from './redux/nav/constants';
+import { goToHome, goToViewCandidate } from './redux/nav/actions';
+import { CANDIDATE_PAGE, HOME_PAGE, LOGIN_PAGE } from './redux/nav/constants';
 import { RootState } from './redux/store';
+import CandidatePage from './screens/CandidatePage';
 import HomePage from './screens/HomePage';
 import LoginPage from './screens/LoginPage';
 import './styles/main.scss';
@@ -14,6 +16,7 @@ interface IProps {
 	currentPage: string, //from redux
 	isAuthenticated: boolean, //from redux
 	goToHome: Function, //from redux
+	goToViewCandidate: Function, //from redux
 	loginSuccess: Function //from redux
 };
 
@@ -22,7 +25,8 @@ interface IProps {
 
 const App: FC<IProps> = ({
 	currentPage, isAuthenticated,
-	goToHome, loginSuccess
+	goToHome, loginSuccess,
+	goToViewCandidate
 }) => {
 	const [isFirstLoad, setIsFirstLoad] = useState(true);
 	useEffect(() => { //This useEffect defines the listeners for the events on the App
@@ -42,18 +46,23 @@ const App: FC<IProps> = ({
 	useEffect( () => {
 		if (isAuthenticated && isFirstLoad) {
 			setIsFirstLoad(false);
+			if (isCandidateUrl(window.location.href)) {
+				goToViewCandidate();
+			}
 			goToHome();
 		}
 	}, [isAuthenticated, isFirstLoad]);
-	let cmp = <LoginPage/>
+	let cmp = <LoginPage/>;
 	switch (currentPage) {
 		case LOGIN_PAGE:
 		default:
-			cmp = <LoginPage/>
+			cmp = <LoginPage/>;
 			break;
 		case HOME_PAGE: 
-			cmp = <HomePage/>
+			cmp = <HomePage/>;
 			break;
+		case CANDIDATE_PAGE:
+			cmp = <CandidatePage/>;
 	}
 	return cmp;
 };
@@ -67,4 +76,5 @@ const mapStateToProps = (state: RootState) => {
 export default connect(mapStateToProps, {
 	loginSuccess,
 	goToHome,
+	goToViewCandidate,
 })(App);
