@@ -13,8 +13,8 @@ import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS } from "./constants";
  */
 type MyThunkResult<R> = ThunkAction<R, any, any, Action>;
 
-export const loginAction = (): MyThunkResult<Promise<void>> => {
-	return async(dispatch: ThunkDispatch<void, any, Action> ) => {
+export const loginAction = (): MyThunkResult<void> => {
+	return (dispatch: ThunkDispatch<void, any, Action> ) => {
 		dispatch(login());
 		chrome.runtime.sendMessage({message: LOGIN_MESSAGE});
 	};
