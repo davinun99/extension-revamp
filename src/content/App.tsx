@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { LOGIN_MESSAGE } from '../helpers/constants';
+import { GET_AUTH_MESSAGE, LOGIN_MESSAGE } from '../helpers/constants';
 import { loginSuccess } from './redux/auth/actions';
 import { goToHome } from './redux/nav/actions';
 import { HOME_PAGE, LOGIN_PAGE } from './redux/nav/constants';
@@ -28,6 +28,9 @@ const App: FC<IProps> = ({
 		chrome.runtime.onMessage.addListener((request:BackgroundMessage, sender, sendResponse) => {
 			if (request.message === LOGIN_MESSAGE) {// Recieve and process the login msg.
 				loginSuccess(request.payload);
+			}
+			if (request.message === GET_AUTH_MESSAGE) {
+				console.log('GET_AUTH_MESSAGE handler on front', request.payload);
 			}
 		});
 	}, []);
