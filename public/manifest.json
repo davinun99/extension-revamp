@@ -11,14 +11,18 @@
 		"matches": [
 			"https://www.linkedin.com/*"
 		],
-		"css": ["styles/content.css"],
+		"css": [
+			"styles/content.css",
+			"styles/bootstrap.min.css"
+		],
 		"js": [
 			"content.js"
 		]
 	}],
 	"permissions": [
 		"identity",
-		"identity.email"
+		"identity.email",
+		"storage"
 	],
 	"action": {
 		"default_popup": "popup.html",

@@ -1,24 +1,16 @@
 // @flow
 import { configureStore } from '@reduxjs/toolkit';
 import AuthReducer from './auth/reducers';
-// import { applyMiddleware } from 'redux';
-// import createSagaMiddleware from 'redux-saga';
-// import sagas from './sagas';
-
-// const sagaMiddleware = createSagaMiddleware();
-// const middlewares = [sagaMiddleware];
+import thunk from "redux-thunk";
 
 //REDUCERS: 
 import CandidateReducer from './candidate/reducers';
-export function createAppStore() {
-    // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+import NavReducer from './nav/reducers';
 
-    // const store = createStore(reducers, initialState, composeEnhancers(applyMiddleware(...middlewares)));
-	const store = configureStore({ reducer: {
-		auth: AuthReducer,
-		candidate: CandidateReducer,
-	} });
-    // sagaMiddleware.run(sagas);
-    return store;
-}
-// export type RootState = ReturnType<typeof store.getState>
+export const store = configureStore({ reducer: {
+	auth: AuthReducer,
+	candidate: CandidateReducer,
+	nav: NavReducer,
+}, middleware: [thunk] });
+
+export type RootState = ReturnType<typeof store.getState>
