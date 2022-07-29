@@ -24,12 +24,14 @@ const App: FC<IProps> = ({
 	goToHome, loginSuccess
 }) => {
 	const [isFirstLoad, setIsFirstLoad] = useState(true);
-	useEffect( () => { //This useEffect defines the listeners for the events on the App
+	useEffect(() => { //This useEffect defines the listeners for the events on the App
 		chrome.runtime.onMessage.addListener((request:BackgroundMessage, sender, sendResponse) => {
 			if (request.message === LOGIN_MESSAGE) {// Recieve and process the login msg.
 				loginSuccess(request.payload);
 			}
 		});
+	}, []);
+	useEffect( () => {
 		if (isAuthenticated && isFirstLoad) {
 			setIsFirstLoad(false);
 			goToHome();
