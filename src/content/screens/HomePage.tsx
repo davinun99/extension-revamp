@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { connect } from 'react-redux';
-import { Container } from 'reactstrap';
 import { RootState } from '../redux/store';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 
@@ -10,9 +9,9 @@ interface IProps {
 const HomePage:FC<IProps> = (
 ) => {
 	return (
-		<Container className='HomeContainer'>
+		<main className='container-fluid HomeContainer'>
 			Home!
-		</Container>
+		</main>
 	)
 }
 const mapStateToProps = (state: RootState) => {

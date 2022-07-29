@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { connect } from 'react-redux';
-import { Container, Button, Spinner } from 'reactstrap';
 import { RootState } from '../redux/store';
 import { loginAction } from '../redux/auth/actions';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
@@ -15,14 +14,18 @@ const LoginPage:FC<IProps> = (
 		loginAction();
 	}
 	return (
-		<Container className='loginContainer'>
+		<main className='loginContainer'>
 			{
-				isLoading ? <Spinner size='sm'/> : 
-				<Button color='primary' className='extensionBtn' onClick={handleLogin}>
+				isLoading ? 
+				<div className="spinner-border text-primary" role="status">
+					<span className="visually-hidden">Loading...</span>
+				</div>
+				: 
+				<button className='btn btn-primary extensionBtn' onClick={handleLogin}>
 					Login
-				</Button>
+				</button>
 			}
-		</Container>
+		</main>
 	)
 }
 const mapStateToProps = (state: RootState) => {
