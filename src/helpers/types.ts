@@ -1,9 +1,12 @@
 // type userOnState = {};
-// type userOnState = {};
+type BackgroundMessageJustType = {
+	message: string,
+};
 type BackgroundMessage = {
 	message: string,
-	payload: Object,
-}
+	error: ErrorData | null,
+	payload: AuthData | null,
+};
 type AuthData = {
 	nimbl_user: {
 		user_id: number,
@@ -31,3 +34,10 @@ type AuthData = {
 		id_token: string
 	}
 };
+type ErrorData = {
+	message: string,
+};
+// interface BackgroundAuthMessage extends BackgroundMessage {
+// 	payload: AuthData,
+// }
+// interface 
