@@ -1,4 +1,4 @@
-import { LOGIN_MESSAGE, GET_AUTH_MESSAGE, BACKEND_URL, GOOGLE_CLIENT_ID } from "../helpers/constants"
+import { LOGIN_MESSAGE, GET_AUTH_MESSAGE, BACKEND_URL, GOOGLE_CLIENT_ID, URL_CHANGE_MESSAGE } from "../helpers/constants"
 
 const login = (): Promise<AuthData| null> => new Promise((resolve, reject) => {
 	let responseURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}&scope=openid%20email%20profile&response_type=code&redirect_uri=${encodeURIComponent(`${BACKEND_URL}/auth/google/callback/v2`)}&resource=https%3A%2F%2Faccounts.google.com%2Fo%2Foauth2%2Fauth`;
@@ -24,6 +24,14 @@ const login = (): Promise<AuthData| null> => new Promise((resolve, reject) => {
 		}
 	});
 });
+const getAuthData = async ():Promise<AuthData|null> => {
+	const authData = await chrome.storage.sync.get(['auth']);
+	if (authData?.auth) {
+		return authData.auth;
+	} else {
+		return null;
+	}
+};
 chrome.runtime.onMessage.addListener(async (request: BackgroundMessageJustType, sender, sendResponse ) => {
 	if (!sender.tab?.id){
 		return;
@@ -51,11 +59,15 @@ chrome.runtime.onMessage.addListener(async (request: BackgroundMessageJustType, 
 		chrome.tabs.sendMessage(sender.tab.id, message);
 	}
 });
-const getAuthData = async ():Promise<AuthData|null> => {
-	const authData = await chrome.storage.sync.get(['auth']);
-	if (authData?.auth) {
-		return authData.auth;
-	} else {
-		return null;
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+	if (changeInfo.url) {
+		const message: BackgroundMessage = {
+			message: URL_CHANGE_MESSAGE,
+			payload: {
+				url: changeInfo.url,
+			},
+			error: null,
+		};
+		chrome.tabs.sendMessage(tabId, message);
 	}
-};
+});

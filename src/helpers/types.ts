@@ -5,7 +5,7 @@ type BackgroundMessageJustType = {
 type BackgroundMessage = {
 	message: string,
 	error: ErrorData | null,
-	payload: AuthData | null,
+	payload: AuthData | URLChangeData | null,
 };
 type AuthData = {
 	nimbl_user: {
@@ -36,6 +36,9 @@ type AuthData = {
 };
 type ErrorData = {
 	message: string,
+};
+type URLChangeData = {
+	url: string,
 };
 // interface BackgroundAuthMessage extends BackgroundMessage {
 // 	payload: AuthData,

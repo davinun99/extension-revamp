@@ -22,7 +22,8 @@
 	"permissions": [
 		"identity",
 		"identity.email",
-		"storage"
+		"storage",
+		"tabs"
 	],
 	"action": {
 		"default_popup": "popup.html",
