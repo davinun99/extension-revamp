@@ -32,7 +32,7 @@ export const getCurrentEmployerLogo = () => {
 	}
 };
 export const getCurrentEmployer = () => {
-	const employerNode:HTMLDivElement | null = document.querySelector('[aria-label="Current company"]');
+	const employerNode:HTMLElement | null = document.querySelector('[aria-label="Current company"]');
 	const employer = employerNode && employerNode.innerText;
 	return employer ? employer : '';
 };
@@ -47,7 +47,7 @@ export const getUniversityLogo = () => {
 	}
 };
 export const getUniversity = () => {
-	const universityNode: HTMLDivElement | null = document.querySelector('[aria-label="Education"]');
+	const universityNode: HTMLElement | null = document.querySelector('[aria-label="Education"]');
 	const university = universityNode && universityNode.innerText;
 	return university ? university : '';
 };
@@ -147,7 +147,7 @@ export const getPhoto = () => {
 export const getFullCandidateName = () => {
 	let fullName: string = '';
 	try {
-		let fullNameNode = <HTMLDivElement>(document.getElementsByClassName(FULL_NAME_CLASS) || [null])[0];	
+		let fullNameNode = <HTMLElement>(document.getElementsByClassName(FULL_NAME_CLASS) || [null])[0];	
 		if (fullNameNode) {
 			fullName = fullNameNode.innerText;
 		}
@@ -168,10 +168,10 @@ export const getNames = (fullName: string) => {
 	return { first, last };
 }
 export const getLocation = () => {
-	let locationNode:HTMLDivElement;
+	let locationNode:HTMLElement;
 	let location = '';
 	try{
-		locationNode = <HTMLDivElement>(document.getElementsByClassName(LOCATION_CLASS) || [null])[0];
+		locationNode = <HTMLElement>(document.getElementsByClassName(LOCATION_CLASS) || [null])[0];
 		if (locationNode) {
 			location = locationNode.innerText;
 		}
