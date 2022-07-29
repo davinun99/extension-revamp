@@ -1,6 +1,5 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { connect } from 'react-redux';
-import { GET_AUTH_MESSAGE } from '../../helpers/constants';
 import { RootState } from '../redux/store';
 
 interface IProps {

@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import Swal from 'sweetalert2';
 import { GET_AUTH_MESSAGE, LOGIN_MESSAGE } from '../helpers/constants';
 import { loginSuccess } from './redux/auth/actions';
 import { goToHome } from './redux/nav/actions';
@@ -26,13 +27,17 @@ const App: FC<IProps> = ({
 	const [isFirstLoad, setIsFirstLoad] = useState(true);
 	useEffect(() => { //This useEffect defines the listeners for the events on the App
 		chrome.runtime.onMessage.addListener((request:BackgroundMessage, sender, sendResponse) => {
-			if (request.message === LOGIN_MESSAGE) {// Recieve and process the login msg.
+			if (request.message === LOGIN_MESSAGE && request.payload) {// Recieve and process the login msg.
 				loginSuccess(request.payload);
 			}
-			if (request.message === GET_AUTH_MESSAGE) {
-				console.log('GET_AUTH_MESSAGE handler on front', request.payload);
+			if (request.message === GET_AUTH_MESSAGE && request.payload) {
+				loginSuccess(request.payload);
+			}
+			else if (request.error) {
+				Swal.fire({ title: 'Error!' , text: `${request.error.message}. Message: ${request.message}`, icon: 'warning' });
 			}
 		});
+		chrome.runtime.sendMessage({message: GET_AUTH_MESSAGE});
 	}, []);
 	useEffect( () => {
 		if (isAuthenticated && isFirstLoad) {
