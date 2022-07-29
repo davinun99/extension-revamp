@@ -201,3 +201,30 @@ export const getJobTitle = () => {
 	} catch (error) {}
 	return jobTitle;
 };
+
+
+export const getCandidateFromScrape = (managing_recruiter_id: number): SimpleCandidate => {
+	const candidate_full_name = getFullCandidateName();
+	const fullName = getNames(candidate_full_name);
+	return {
+		contract: true,
+        permanent: true,
+        candidate_source_id: 1,
+        willing_to_relocate: 2,
+        work_onsite: true,
+        work_remotely: true,
+        photo: getPhoto(),
+        candidate_full_name,
+		candidate_first_name: fullName.first,
+		candidate_last_name: fullName.last,
+        current_employer: getCurrentEmployer(),
+        current_employer_logo: getCurrentEmployerLogo(),
+        university_logo: getUniversityLogo(),
+        university: getUniversity(),
+        linked_in: document.location.href,
+        managing_recruiter_id,
+        source_recruiter_id: managing_recruiter_id,
+        job_title: getJobTitle(),
+        location: getLocation(),
+	};
+};
