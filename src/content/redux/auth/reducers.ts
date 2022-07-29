@@ -3,8 +3,9 @@ import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS } from "./constants";
 const INIT_STATE = {
 	user: null,
     nimblUser: null,
-    loading: false,
+    isLoading: false,
 	errorMessage: '',
+	isAuthenticated: false,
 };
 // type ACTIONTYPE =
 // 	| { type: "increment"; payload: number }
@@ -14,10 +15,11 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 		case LOGIN:
 			return {
 				...state,
-				loading: true,
+				isLoading: true,
 				nimblUser: null,
 				user: null,
 				errorMessage: '',
+				isAuthenticated: false,
 			};
 		case LOGIN_ERROR:
 			return {
@@ -25,14 +27,16 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 				errorMessage: action.payload,
 				nimblUser: null,
 				user: null,
-				loading: false,
+				isLoading: false,
+				isAuthenticated: false,
 			};
 		case LOGIN_SUCCESS:
 			return {
 				...state,
 				nimblUser: action.payload,
 				user: null,
-				loading: false,
+				isLoading: false,
+				isAuthenticated: true,
 			};
 		default:
 			return state;
