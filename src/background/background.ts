@@ -1,4 +1,4 @@
-import { LOGIN_MESSAGE, BACKEND_URL, GOOGLE_CLIENT_ID } from "../helpers/constants"
+import { LOGIN_MESSAGE, GET_AUTH_MESSAGE, BACKEND_URL, GOOGLE_CLIENT_ID } from "../helpers/constants"
 
 const login = (): Promise<any> => new Promise((resolve, reject) => {
 	let responseURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}&scope=openid%20email%20profile&response_type=code&redirect_uri=${encodeURIComponent(`${BACKEND_URL}/auth/google/callback/v2`)}&resource=https%3A%2F%2Faccounts.google.com%2Fo%2Foauth2%2Fauth`;
@@ -25,14 +25,22 @@ const login = (): Promise<any> => new Promise((resolve, reject) => {
 	});
 });
 chrome.runtime.onMessage.addListener(async (request: BackgroundMessage, sender, sendResponse ) => {
+	let message: BackgroundMessage| null = null;
 	if (request.message === LOGIN_MESSAGE) { //Front is trying to init login
 		const userAuth:Object = await login();
-		const message = { message: LOGIN_MESSAGE, payload: userAuth };
-		if(sender.tab?.id ){
-			chrome.tabs.sendMessage(sender.tab.id, message);
+		message = { message: LOGIN_MESSAGE, payload: userAuth };
+		if (userAuth) {
+			chrome.storage.sync.set({ auth: userAuth });
 		}
-		if(userAuth){
-			chrome.storage.local.set({auth: userAuth});
-		}
+	}else if(request.message === GET_AUTH_MESSAGE) { //Front is trying to get auth data
+		const authData = await getAuthData();
+		message = { message: LOGIN_MESSAGE, payload: authData };
 	}
-})
+	if (sender.tab?.id && message) {
+		chrome.tabs.sendMessage(sender.tab.id, message);
+	}
+});
+const getAuthData = async () => {
+	const authData = await chrome.storage.sync.get(['auth']);
+	return authData;
+};
