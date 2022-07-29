@@ -172,6 +172,11 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-18.0.6.tgz"
   integrity sha512-/xUq6H2aQm261exT6iZTMifUySEt4GR5KX8eYyY+C4MSNPqSh9oNIP7tz2GLKTlFaiBbgZNxffoR3CVRG+cljw==
 
+"@types/parse-full-name@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@types/parse-full-name/-/parse-full-name-1.2.2.tgz#731e80d625faf13607d8eb2f8cccf59a786fa4fd"
+  integrity sha512-ggtHNmVmn+S20kTsgcZfKB5bLq59rY37jk/V9iPsxpFvqcZumonIgb6jK4gFwy8t/5bc+09p6GiWgw3IlS53Cg==
+
 "@types/prop-types@*":
   version "15.7.5"
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz"
@@ -1300,6 +1305,11 @@ param-case@^3.0.4:
   dependencies:
     dot-case "^3.0.4"
     tslib "^2.0.3"
+
+parse-full-name@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/parse-full-name/-/parse-full-name-1.2.6.tgz#97e2643c0167b79ca404dab254ea79e89b025704"
+  integrity sha512-uIaENXJFmZfzulBndhHJayi7ZEifJ1bXKaWYmySa04EmMX7eIcsufiAgWTYiJqWRa/Sq7JWPGtCIXFAoUfF7gw==
 
 pascal-case@^3.1.2:
   version "3.1.2"
