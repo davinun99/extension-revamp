@@ -31,7 +31,6 @@ const App: FC<IProps> = ({
 				loginSuccess(request.payload);
 			}
 			if (request.message === GET_AUTH_MESSAGE && request.payload) {
-				console.log('GET_AUTH_MESSAGE handler on front', request.payload);
 				loginSuccess(request.payload);
 			}
 			else if (request.error) {
