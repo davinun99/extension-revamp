@@ -21,7 +21,8 @@
 	}],
 	"permissions": [
 		"identity",
-		"identity.email"
+		"identity.email",
+		"storage"
 	],
 	"action": {
 		"default_popup": "popup.html",
