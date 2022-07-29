@@ -9,7 +9,7 @@ const axiosClient = axios.create({
 const refreshTokenIntenceptor = async (error: AxiosError) => {
 	if (error.response?.status === 401) {
 		await Swal.fire({ title: "Error", text: "Your session has ended. Please log in again", icon: "error" });
-		console.log('Should logout');
+		// Here maybe logout the user?
 	}
 	return Promise.reject(error);
 };
