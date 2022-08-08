@@ -5,18 +5,23 @@ import { isCandidateUrl } from '../helpers';
 import { GET_AUTH_MESSAGE, LOGIN_MESSAGE, URL_CHANGE_MESSAGE } from '../helpers/constants';
 import { loginSuccess } from './redux/auth/actions';
 import { goToHome, goToViewCandidate } from './redux/nav/actions';
+import { getCandidateFromBackAction, getCandidateScrapedAction } from './redux/candidate/actions';
 import { CANDIDATE_PAGE, HOME_PAGE, LOGIN_PAGE } from './redux/nav/constants';
 import { RootState } from './redux/store';
 import CandidatePage from './screens/CandidatePage';
 import HomePage from './screens/HomePage';
 import LoginPage from './screens/LoginPage';
 import './styles/main.scss';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
 
 interface IProps {
 	currentPage: string, //from redux
 	isAuthenticated: boolean, //from redux
 	goToHome: Function, //from redux
 	goToViewCandidate: Function, //from redux
+	getCandidateFromBackAction: Function, //from redux,
+	getCandidateScrapedAction: Function, //from redux
 	loginSuccess: Function //from redux
 };
 
@@ -26,11 +31,15 @@ interface IProps {
 const App: FC<IProps> = ({
 	currentPage, isAuthenticated,
 	goToHome, loginSuccess,
-	goToViewCandidate
+	goToViewCandidate,
+	getCandidateFromBackAction,
+	getCandidateScrapedAction
 }) => {
 	const [isFirstLoad, setIsFirstLoad] = useState(true);
-	const defaultCheckRedirect = (url : string = window.location.href) => {
+	const handleUrlChange = (url: string = window.location.href) => {
 		if (isCandidateUrl(url)) {
+			getCandidateFromBackAction(url);
+			getCandidateScrapedAction();
 			goToViewCandidate();
 		} else {
 			goToHome();
@@ -45,7 +54,7 @@ const App: FC<IProps> = ({
 				loginSuccess(request.payload);
 			}
 			else if (request.message === URL_CHANGE_MESSAGE && request.payload && 'url' in request.payload) {
-				defaultCheckRedirect(request.payload.url);
+				handleUrlChange(request.payload.url); //The url has changed, handle the redirection
 			}
 			else if (request.error) {
 				Swal.fire({ title: 'Error!' , text: `${request.error.message}. Message: ${request.message}`, icon: 'warning' });
@@ -56,7 +65,7 @@ const App: FC<IProps> = ({
 	useEffect( () => {
 		if (isAuthenticated && isFirstLoad) {
 			setIsFirstLoad(false);
-			defaultCheckRedirect();
+			handleUrlChange();
 		}
 	}, [isAuthenticated, isFirstLoad]);
 	let cmp = <LoginPage/>;
@@ -78,10 +87,14 @@ const mapStateToProps = (state: RootState) => {
 	return {
 		currentPage: nav.currentPage,
 		isAuthenticated: auth.isAuthenticated,
+
 	};
 }
-export default connect(mapStateToProps, {
-	loginSuccess,
-	goToHome,
-	goToViewCandidate,
-})(App);
+const mapDispatchToProps = (dispatch :ThunkDispatch<any, any, AnyAction>) => ({
+	loginSuccess: (authData: AuthData) => dispatch(loginSuccess(authData)),
+	goToHome: () => dispatch(goToHome()),
+	goToViewCandidate: () => dispatch(goToViewCandidate()),
+	getCandidateFromBackAction: (url: string) => dispatch(getCandidateFromBackAction(url)),
+	getCandidateScrapedAction: (recruiterId: number) => dispatch(getCandidateScrapedAction(recruiterId)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(App);
