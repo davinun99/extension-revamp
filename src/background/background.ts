@@ -44,6 +44,10 @@ const getAuthData = async ():Promise<AuthData|null> => {
 		return null;
 	}
 };
+const sendLoginInfoToExistingTabs = async(message: BackgroundMessage) => {
+	const tabs = await chrome.tabs.query({url: 'https://www.linkedin.com/*'});
+	tabs.forEach(tab => tab.id && chrome.tabs.sendMessage(tab.id, message));
+}
 chrome.runtime.onMessage.addListener(async (request: BackgroundMessageJustType, sender, sendResponse ) => {
 	if (!sender.tab?.id){ //If there's not tabId, we don't need to process this msg
 		return;
@@ -59,16 +63,17 @@ chrome.runtime.onMessage.addListener(async (request: BackgroundMessageJustType, 
 			error = { message: 'Error completing login process, please try again later.' };
 		}
 		const message: BackgroundMessage = { message: LOGIN_MESSAGE, payload, error };
-		chrome.tabs.sendMessage(sender.tab.id, message);
+		sendLoginInfoToExistingTabs(message);
 	}else if(request.message === GET_AUTH_MESSAGE) { //Front is trying to get auth data
 		const authData: AuthData|null = await getAuthData();
 		if (authData) {
 			payload = authData;
 		} else {
-			error = { message: 'Error getting auth info, please try again later.' };
+			//Handle token expiration
+			error = { message: 'Error getting your user information, please try logging in again.' };
 		}
 		const message: BackgroundMessage = { message: GET_AUTH_MESSAGE, payload, error };
-		chrome.tabs.sendMessage(sender.tab.id, message);
+		sendLoginInfoToExistingTabs(message);
 	}
 });
 
