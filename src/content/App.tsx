@@ -87,7 +87,7 @@ const App: FC<IProps> = ({
 	}
 	return (<main className='extensionContainer'>
 		<div className='expandArrowContainer'>
-			<ChevronLeft className='backArrow'
+			<ChevronLeft className='backArrow' id="extensionBackArrow"
 				onClick={() => toggleScreen()} 
 			/>
 		</div>
