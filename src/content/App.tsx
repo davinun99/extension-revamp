@@ -15,14 +15,17 @@ import './styles/main.scss';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { ChevronLeft } from 'react-feather';
+import { toggleScreen } from './redux/layout/actions';
 
 interface IProps {
 	currentPage: string, //from redux
 	isAuthenticated: boolean, //from redux
+	screenIsVisible: boolean, //from redux
 	goToHome: Function, //from redux
 	goToViewCandidate: Function, //from redux
 	getCandidateFromBackAction: Function, //from redux,
 	getCandidateScrapedAction: Function, //from redux
+	toggleScreen: Function //from redux
 	loginSuccess: Function //from redux
 };
 
@@ -30,11 +33,12 @@ interface IProps {
 // It will use the nav redux store to direct the user to the different pages
 
 const App: FC<IProps> = ({
-	currentPage, isAuthenticated,
+	currentPage, isAuthenticated, screenIsVisible,
 	goToHome, loginSuccess,
 	goToViewCandidate,
 	getCandidateFromBackAction,
-	getCandidateScrapedAction
+	getCandidateScrapedAction,
+	toggleScreen,
 }) => {
 	const [isFirstLoad, setIsFirstLoad] = useState(true);
 	const handleUrlChange = (url: string = window.location.href) => {
@@ -83,7 +87,9 @@ const App: FC<IProps> = ({
 	}
 	return (<main className='extensionContainer'>
 		<div className='expandArrowContainer'>
-			<ChevronLeft className='backArrow' />
+			<ChevronLeft className='backArrow'
+				onClick={() => toggleScreen()} 
+			/>
 		</div>
 		<div className='screenContainer'>
 			{cmp}
@@ -91,11 +97,11 @@ const App: FC<IProps> = ({
 	</main>);
 };
 const mapStateToProps = (state: RootState) => {
-	const { nav, auth } = state;
+	const { nav, auth, layout } = state;
 	return {
 		currentPage: nav.currentPage,
 		isAuthenticated: auth.isAuthenticated,
-
+		screenIsVisible: layout.screenIsVisible, 
 	};
 }
 const mapDispatchToProps = (dispatch :ThunkDispatch<any, any, AnyAction>) => ({
@@ -104,5 +110,6 @@ const mapDispatchToProps = (dispatch :ThunkDispatch<any, any, AnyAction>) => ({
 	goToViewCandidate: () => dispatch(goToViewCandidate()),
 	getCandidateFromBackAction: (url: string) => dispatch(getCandidateFromBackAction(url)),
 	getCandidateScrapedAction: (recruiterId: number) => dispatch(getCandidateScrapedAction(recruiterId)),
+	toggleScreen: () => dispatch(toggleScreen()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(App);
