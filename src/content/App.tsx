@@ -14,6 +14,7 @@ import LoginPage from './screens/LoginPage';
 import './styles/main.scss';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
+import { ChevronLeft } from 'react-feather';
 
 interface IProps {
 	currentPage: string, //from redux
@@ -80,7 +81,14 @@ const App: FC<IProps> = ({
 		case CANDIDATE_PAGE:
 			cmp = <CandidatePage/>;
 	}
-	return cmp;
+	return (<main className='extensionContainer'>
+		<div className='expandArrowContainer'>
+			<ChevronLeft className='backArrow' />
+		</div>
+		<div className='screenContainer'>
+			{cmp}
+		</div>
+	</main>);
 };
 const mapStateToProps = (state: RootState) => {
 	const { nav, auth } = state;
