@@ -23,7 +23,8 @@
 		"identity",
 		"identity.email",
 		"storage",
-		"tabs"
+		"tabs",
+		"history"
 	],
 	"action": {
 		"default_popup": "popup.html",

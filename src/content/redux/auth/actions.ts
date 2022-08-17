@@ -1,6 +1,6 @@
 import { Action, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { LOGIN_MESSAGE } from "../../../helpers/constants";
-import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS } from "./constants";
+import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, SET_LAST_VISITED_PROFILES } from "./constants";
 
 /**
  * https://redux.js.org/usage/usage-with-typescript#type-checking-redux-thunks
@@ -11,10 +11,10 @@ import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS } from "./constants";
   A extends Action // known types of actions that can be dispatched
 > = (dispatch: ThunkDispatch<S, E, A>, getState: () => S, extraArgument: E) => R
  */
-type MyThunkResult<R> = ThunkAction<R, any, any, Action>;
+type LoginThunkResult<R> = ThunkAction<R, undefined, undefined, Action>;
 
-export const loginAction = (): MyThunkResult<void> => {
-	return (dispatch: ThunkDispatch<void, any, Action> ) => {
+export const loginAction = (): LoginThunkResult<void> => {
+	return (dispatch: ThunkDispatch<undefined, undefined, Action> ) => {
 		dispatch(login());
 		chrome.runtime.sendMessage({message: LOGIN_MESSAGE});
 	};
@@ -30,4 +30,8 @@ export const loginError = (errorMessage: string) => ({
 export const loginSuccess = (user: AuthData) => ({
 	type: LOGIN_SUCCESS,
 	payload: user,
+});
+export const setLastVisitedProfiles = (lastVisitedProfiles: chrome.history.HistoryItem[]) => ({
+	type: SET_LAST_VISITED_PROFILES,
+	payload: lastVisitedProfiles,
 });
