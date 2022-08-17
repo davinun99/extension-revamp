@@ -1,4 +1,4 @@
-import { LINKEDIN_MAIN_URL } from './constants';
+import { LINKEDIN_CANDIDATE_URL } from './constants';
 
 /**
  * It returns true if the url starts with https://www.linkedin.com/in/, ergo if it is a candidate
@@ -6,7 +6,7 @@ import { LINKEDIN_MAIN_URL } from './constants';
  * @returns A boolean
  */
 export const isCandidateUrl = (url: string) :boolean => {
-	return decodeURI(url).startsWith(`${LINKEDIN_MAIN_URL}/in/`);
+	return decodeURI(url).startsWith(LINKEDIN_CANDIDATE_URL);
 };
 /**
  * It changes the CSS transform property of the extension's anchor element and the back arrow icon to

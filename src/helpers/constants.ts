@@ -1,6 +1,9 @@
-// APPLICATION ENDPOINTS
+// APPLICATION BACKEND ENDPOINTS
 export const BACKEND_URL:string = 'https://ckk9quvsne.execute-api.eu-west-2.amazonaws.com';
-export const LINKEDIN_MAIN_URL = `https://www.linkedin.com`;
+
+// APPLICATION CONSTANTS
+export const LINKEDIN_MAIN_URL:string = `https://www.linkedin.com`;
+export const LINKEDIN_CANDIDATE_URL:string = `${LINKEDIN_MAIN_URL}/in/`;
 
 // APPLICATION CREDENTIALS
 export const GOOGLE_CLIENT_ID:string = `973338625449-1lcpuv67uld9pb3p5h504uvtp9b8328s.apps.googleusercontent.com`;
