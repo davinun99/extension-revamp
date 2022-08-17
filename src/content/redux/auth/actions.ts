@@ -11,10 +11,10 @@ import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS } from "./constants";
   A extends Action // known types of actions that can be dispatched
 > = (dispatch: ThunkDispatch<S, E, A>, getState: () => S, extraArgument: E) => R
  */
-type MyThunkResult<R> = ThunkAction<R, any, any, Action>;
+type LoginThunkResult<R> = ThunkAction<R, undefined, undefined, Action>;
 
-export const loginAction = (): MyThunkResult<void> => {
-	return (dispatch: ThunkDispatch<void, any, Action> ) => {
+export const loginAction = (): LoginThunkResult<void> => {
+	return (dispatch: ThunkDispatch<undefined, undefined, Action> ) => {
 		dispatch(login());
 		chrome.runtime.sendMessage({message: LOGIN_MESSAGE});
 	};
