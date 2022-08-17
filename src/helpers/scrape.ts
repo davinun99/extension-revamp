@@ -137,7 +137,7 @@ export const getPhoto = () => {
 		}
 		if (photo) src = photo.src;
 		if (!photo || !src) {
-			console.log("The photo could not be loaded, contact your provider");
+			//"The photo could not be loaded, contact your provider"
 			return '';
 		}
 		if (!src || src.startsWith("data")) return '';
@@ -176,7 +176,7 @@ export const getLocation = () => {
 			location = locationNode.innerText;
 		}
 		if (!locationNode || !locationNode) {
-			console.log("The location could not be loaded, contact your provider");
+			//"The location could not be loaded, contact your provider"
 			return '';
 		}
 	}catch(e){}
@@ -191,11 +191,11 @@ export const getJobTitle = () => {
 			jobTitle = jobTitleNode.innerText;
 		}
 		if (!jobTitleNode || !jobTitle) {
-			console.log("The job title could not be loaded, contact your provider");
+			// "The job title could not be loaded, contact your provider"
 			return '';
 		}
 		if (jobTitle.length >= 100) {
-			console.log("The job title is too long, we will keep only the first 100 characters");
+			// "The job title is too long, we will keep only the first 100 characters"
 			jobTitle = jobTitle.substring(0, 100);
 		}	
 	} catch (error) {}
