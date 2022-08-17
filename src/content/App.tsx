@@ -2,8 +2,8 @@ import React, { FC, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Swal from 'sweetalert2';
 import { isCandidateUrl } from '../helpers';
-import { GET_AUTH_MESSAGE, LOGIN_MESSAGE, URL_CHANGE_MESSAGE } from '../helpers/constants';
-import { loginSuccess } from './redux/auth/actions';
+import { GET_AUTH_MESSAGE, LAST_PROFILES_VISITED_MESSAGE, LOGIN_MESSAGE, URL_CHANGE_MESSAGE } from '../helpers/constants';
+import { loginSuccess, setLastVisitedProfiles } from './redux/auth/actions';
 import { goToHome, goToViewCandidate } from './redux/nav/actions';
 import { getCandidateFromBackAction, getCandidateScrapedAction } from './redux/candidate/actions';
 import { CANDIDATE_PAGE, HOME_PAGE, LOGIN_PAGE } from './redux/nav/constants';
@@ -27,6 +27,7 @@ interface IProps {
 	getCandidateScrapedAction: Function, //from redux
 	toggleScreen: Function //from redux
 	loginSuccess: Function //from redux
+	setLastVisitedProfiles: Function  //from redux
 };
 
 // This component is the entry point for the react app and acts as an navigator too
@@ -39,6 +40,7 @@ const App: FC<IProps> = ({
 	getCandidateFromBackAction,
 	getCandidateScrapedAction,
 	toggleScreen,
+	setLastVisitedProfiles,
 }) => {
 	const [isFirstLoad, setIsFirstLoad] = useState(true);
 	const handleUrlChange = (url: string = window.location.href) => {
@@ -61,7 +63,9 @@ const App: FC<IProps> = ({
 			else if (request.message === URL_CHANGE_MESSAGE && request.payload && 'url' in request.payload) {
 				handleUrlChange(request.payload.url); //The url has changed, handle the redirection
 			}
-			else if (request.error) {
+			else if (request.message === LAST_PROFILES_VISITED_MESSAGE && request.payload instanceof Array<chrome.history.HistoryItem> ) {
+				setLastVisitedProfiles(request.payload);
+			} else if (request.error) {
 				Swal.fire({ title: 'Error!' , text: `${request.error.message}. Message: ${request.message}`, icon: 'warning' });
 			}
 		});
@@ -111,5 +115,6 @@ const mapDispatchToProps = (dispatch :ThunkDispatch<any, any, AnyAction>) => ({
 	getCandidateFromBackAction: (url: string) => dispatch(getCandidateFromBackAction(url)),
 	getCandidateScrapedAction: (recruiterId: number) => dispatch(getCandidateScrapedAction(recruiterId)),
 	toggleScreen: () => dispatch(toggleScreen()),
+	setLastVisitedProfiles: (lastVisitedProfiles: chrome.history.HistoryItem[]) => dispatch(setLastVisitedProfiles(lastVisitedProfiles)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(App);
