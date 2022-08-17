@@ -1,6 +1,14 @@
+import { LINKEDIN_CANDIDATE_URL } from "../../../helpers/constants";
 import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, SET_LAST_VISITED_PROFILES } from "./constants";
 
-const INIT_STATE = {
+interface authState {
+	authData: null | AuthData,
+    isLoading: boolean,
+	errorMessage: string,
+	isAuthenticated: boolean,
+	lastVisitedProfiles: chrome.history.HistoryItem[],
+}
+const INIT_STATE: authState = {
     authData: null,
     isLoading: false,
 	errorMessage: '',
@@ -37,9 +45,25 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 				isAuthenticated: true,
 			};
 		case SET_LAST_VISITED_PROFILES:
+			let historyItems:chrome.history.HistoryItem[] = action.payload;
+			const filteredItems:Array<chrome.history.HistoryItem> = [];
+			const positionOfFirstSlash = LINKEDIN_CANDIDATE_URL.length + 1;
+			historyItems.forEach(historyItem => {
+				LINKEDIN_CANDIDATE_URL
+				const link = historyItem.url?.substring(
+					0,
+					historyItem.url.indexOf('/', positionOfFirstSlash)
+				);
+				if (!filteredItems.find(item => item.url === link)) {
+					filteredItems.push({
+						...historyItem,
+						url: link,
+					});
+				}
+			});
 			return {
 				...state,
-				lastVisitedProfiles: action.payload,
+				lastVisitedProfiles: filteredItems,
 			};
 		default:
 			return state;
