@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Swal from 'sweetalert2';
-import { isCandidateUrl } from '../helpers';
+import { handleExtensionExpansion, isCandidateUrl } from '../helpers';
 import { GET_AUTH_MESSAGE, LAST_PROFILES_VISITED_MESSAGE, LOGIN_MESSAGE, URL_CHANGE_MESSAGE } from '../helpers/constants';
 import { loginSuccess, setLastVisitedProfiles } from './redux/auth/actions';
 import { goToHome, goToViewCandidate } from './redux/nav/actions';
@@ -77,6 +77,10 @@ const App: FC<IProps> = ({
 			handleUrlChange();
 		}
 	}, [isAuthenticated, isFirstLoad]);
+	const handleBackArrowClick = () => {
+		handleExtensionExpansion(!screenIsVisible);
+		toggleScreen();
+	}
 	let cmp = <LoginPage/>;
 	switch (currentPage) {
 		case LOGIN_PAGE:
@@ -92,7 +96,7 @@ const App: FC<IProps> = ({
 	return (<main className='extensionContainer'>
 		<div className='expandArrowContainer'>
 			<ChevronLeft className='backArrow' id="extensionBackArrow"
-				onClick={() => toggleScreen()} 
+				onClick={handleBackArrowClick} 
 			/>
 		</div>
 		<div className='screenContainer'>
