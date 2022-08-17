@@ -5,7 +5,7 @@ type BackgroundMessageJustType = {
 type BackgroundMessage = {
 	message: string,
 	error: ErrorData | null,
-	payload: AuthData | URLChangeData | null,
+	payload: AuthData | URLChangeData | chrome.history.HistoryItem[] | null,
 };
 type AuthData = {
 	nimbl_user: {

@@ -4,9 +4,11 @@ import { RootState } from '../redux/store';
 
 interface IProps {
 	authData: AuthData, //from redux
+	lastVisitedProfiles: chrome.history.HistoryItem[], //from redux
 };
 const HomePage:FC<IProps> = ({
-	authData
+	authData,
+	lastVisitedProfiles
 }) => {
 	return (
 		<main className='container HomeContainer mt-3'>
@@ -14,8 +16,11 @@ const HomePage:FC<IProps> = ({
 			<section className='mt-2'>
 				<h5>Last visited profiles:</h5>
 				<ul>
-					<li>Jose's</li>
-					<li>Manuel's</li>
+					{lastVisitedProfiles.map(historyItem => historyItem.url &&(
+						<li key={historyItem.url}>
+							<a href={historyItem.url}>{encodeURI(historyItem.url)}</a>
+						</li>
+					))}
 				</ul>
 			</section>
 		</main>
@@ -23,7 +28,10 @@ const HomePage:FC<IProps> = ({
 };
 const mapStateToProps = (state: RootState) => {
 	const { auth } = state;
-	return { authData: auth.authData };
+	return {
+		authData: auth.authData,
+		lastVisitedProfiles: auth.lastVisitedProfiles,
+	};
 }
 // const mapDispatchToProps = (dispatch :ThunkDispatch<any, any, AnyAction>) => ({});
 export default connect(mapStateToProps, {})(HomePage);
