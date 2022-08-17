@@ -9,3 +9,4 @@ export const GOOGLE_CLIENT_ID:string = `973338625449-1lcpuv67uld9pb3p5h504uvtp9b
 export const LOGIN_MESSAGE:string = 'LOGIN_MESSAGE';
 export const GET_AUTH_MESSAGE:string = 'GET_AUTH_MESSAGE';
 export const URL_CHANGE_MESSAGE:string = 'URL_CHANGE_MESSAGE';
+export const LAST_PROFILES_VISITED_MESSAGE:string = 'LAST_PROFILES_VISITED_MESSAGE';

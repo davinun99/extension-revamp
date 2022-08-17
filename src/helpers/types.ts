@@ -5,7 +5,7 @@ type BackgroundMessageJustType = {
 type BackgroundMessage = {
 	message: string,
 	error: ErrorData | null,
-	payload: AuthData | URLChangeData | null,
+	payload: AuthData | URLChangeData | chrome.history.HistoryItem[] | null,
 };
 type AuthData = {
 	nimbl_user: {
@@ -65,11 +65,3 @@ type SimpleCandidate = {
 // 	payload: AuthData,
 // }
 // interface 
-type UserHistoryItem = {
-    id: "10740",
-    lastVisitTime: 1660746425563.3572,
-    title: "LinkedIn",
-    typedCount: 0,
-    url: "https://www.linkedin.com/in/mat%C3%ADas-l%C3%B3pez-san-mart%C3%ADn-b33a63200/",
-    visitCount: 7
-}
