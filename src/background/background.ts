@@ -44,9 +44,18 @@ const getAuthData = async ():Promise<AuthData|null> => {
 		return null;
 	}
 };
+
+/**
+ * It sends a message to all open LinkedIn tabs
+ * @param {BackgroundMessage} message - BackgroundMessage - The message to send to the content script.
+ */
 const sendLoginInfoToExistingTabs = async(message: BackgroundMessage) => {
 	const tabs = await chrome.tabs.query({url: 'https://www.linkedin.com/*'});
-	tabs.forEach(tab => tab.id && chrome.tabs.sendMessage(tab.id, message));
+	tabs.forEach(tab => {
+		try{
+			tab.id && chrome.tabs.sendMessage(tab.id, message);
+		}catch(e){ }
+	});
 }
 chrome.runtime.onMessage.addListener(async (request: BackgroundMessageJustType, sender, sendResponse ) => {
 	if (!sender.tab?.id){ //If there's not tabId, we don't need to process this msg
@@ -92,3 +101,14 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 		chrome.tabs.sendMessage(tabId, message);
 	}
 });
+/**
+ * It returns the last 10 LinkedIn profiles you've visited
+ * @returns An array of objects.
+ */
+const getLastVisitedCandidates = async () => {
+	const result = await chrome.history.search({
+		maxResults: 10,
+		text: 'https://www.linkedin.com/in/'
+	});
+	return result;
+}
