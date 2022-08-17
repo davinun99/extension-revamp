@@ -1,10 +1,11 @@
-import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS } from "./constants";
+import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, SET_LAST_VISITED_PROFILES } from "./constants";
 
 const INIT_STATE = {
     authData: null,
     isLoading: false,
 	errorMessage: '',
 	isAuthenticated: false,
+	lastVisitedProfiles: [],
 };
 // type ACTIONTYPE =
 // 	| { type: "increment"; payload: number }
@@ -26,6 +27,7 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 				authData: null,
 				isLoading: false,
 				isAuthenticated: false,
+				lastVisitedProfiles: [],
 			};
 		case LOGIN_SUCCESS:
 			return {
@@ -33,6 +35,11 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 				authData: action.payload,
 				isLoading: false,
 				isAuthenticated: true,
+			};
+		case SET_LAST_VISITED_PROFILES:
+			return {
+				...state,
+				lastVisitedProfiles: action.payload,
 			};
 		default:
 			return state;
