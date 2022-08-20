@@ -68,3 +68,7 @@ export const getLastVisitedCandidates = async () => {
 	});
 	return result;
 }
+
+export const clearAuthCache = (callback:() => void) => {
+	chrome.identity.clearAllCachedAuthTokens(callback);
+};
