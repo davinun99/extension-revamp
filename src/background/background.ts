@@ -1,5 +1,6 @@
+import { CLEAR_AUTH_MESSAGE } from './../helpers/constants';
 import { LOGIN_MESSAGE, GET_AUTH_MESSAGE, URL_CHANGE_MESSAGE, LAST_PROFILES_VISITED_MESSAGE } from "../helpers/constants"
-import { login, getAuthData, sendLoginInfoToExistingTabs, getLastVisitedCandidates } from './helpers';
+import { login, getAuthData, sendLoginInfoToExistingTabs, getLastVisitedCandidates, clearAuthCache } from './helpers';
 
 chrome.runtime.onMessage.addListener(async (request: BackgroundMessageJustType, sender, sendResponse ) => {
 	if (!sender.tab?.id){ //If there's not tabId, we don't need to process this msg
@@ -31,6 +32,9 @@ chrome.runtime.onMessage.addListener(async (request: BackgroundMessageJustType, 
 		const lastVisitedProfiles:chrome.history.HistoryItem[] = await getLastVisitedCandidates();
 		const message:BackgroundMessage = { message: LAST_PROFILES_VISITED_MESSAGE, payload: lastVisitedProfiles, error: null };
 		chrome.tabs.sendMessage(sender.tab.id, message);
+	}else if(request.message === CLEAR_AUTH_MESSAGE){
+		clearAuthCache(() => {});
+		await chrome.storage.sync.clear();
 	}
 });
 
