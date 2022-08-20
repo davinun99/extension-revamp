@@ -1,6 +1,6 @@
 import axiosClient from "../../../helpers/Axios";
 import { LINKEDIN_CANDIDATE_URL } from "../../../helpers/constants";
-import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, SET_LAST_VISITED_PROFILES } from "./constants";
+import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT, SET_LAST_VISITED_PROFILES } from "./constants";
 
 interface authState {
 	authData: null | AuthData,
@@ -71,6 +71,10 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 			return {
 				...state,
 				lastVisitedProfiles: filteredItems,
+			};
+		case LOGOUT: 
+			return {
+				...INIT_STATE,
 			};
 		default:
 			return state;
