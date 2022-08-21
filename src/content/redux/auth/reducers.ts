@@ -42,7 +42,6 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 			const payload:AuthData = action.payload;
 			const token = payload?.tokens.access_token;
 			if (token) {
-				console.log('token set', token);
 				axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 			}
 			return {
