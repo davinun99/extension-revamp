@@ -61,19 +61,19 @@ const App: FC<IProps> = ({
 	}
 	useEffect(() => { //This useEffect defines the listeners for the events on the App
 		chrome.runtime.onMessage.addListener((request:BackgroundMessage, sender, sendResponse) => {
-			const payload = request.payload;
-			if (request.message === LOGIN_MESSAGE && request.payload && 'tokens' in request.payload) {// Recieve and process the login msg.
-				handleLoginSuccess(request.payload);
+			const { message, payload } = request;
+			if (message === LOGIN_MESSAGE && payload && 'tokens' in payload) {// Recieve and process the login msg.
+				handleLoginSuccess(payload);
 			}
-			else if (request.message === GET_AUTH_MESSAGE && request.payload && 'tokens' in request.payload) {
-				handleLoginSuccess(request.payload);
+			else if (message === GET_AUTH_MESSAGE && payload && 'tokens' in payload) {
+				handleLoginSuccess(payload);
 			}
-			else if (request.message === URL_CHANGE_MESSAGE && request.payload && 'url' in request.payload) {
-				handleUrlChange(request.payload.url); //The url has changed, handle the redirection
+			else if (message === URL_CHANGE_MESSAGE && payload && 'url' in payload) {
+				handleUrlChange(payload.url); //The url has changed, handle the redirection
 			}
-			else if (request.message === LAST_PROFILES_VISITED_MESSAGE && request.payload instanceof Array<chrome.history.HistoryItem> ) {
-				setLastVisitedProfiles(request.payload);
-			}else if(request.message === CLEAR_AUTH_MESSAGE) {
+			else if (message === LAST_PROFILES_VISITED_MESSAGE && payload instanceof Array<chrome.history.HistoryItem> ) {
+				setLastVisitedProfiles(payload);
+			}else if(message === CLEAR_AUTH_MESSAGE) {
 				logout();
 			}else if (request.error) {
 				Swal.fire({ title: 'Error!' , text: `${request.error.message}. Message: ${request.message}`, icon: 'warning' });
