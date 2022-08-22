@@ -2,7 +2,7 @@ import { ThunkDispatch } from '@reduxjs/toolkit';
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { getCandidateFromScrape } from '../../../helpers/scrape';
-import { GET_CANDIDATE_FROM_BACK, GET_CANDIDATE_SCRAPED, GET_CANDIDATE_FROM_BACK_SUCCESS, GET_CANDIDATE_FROM_BACK_ERROR } from "./constants";
+import { GET_CANDIDATE_FROM_BACK, GET_CANDIDATE_SCRAPED, GET_CANDIDATE_FROM_BACK_SUCCESS, GET_CANDIDATE_FROM_BACK_ERROR, GET_CANDIDATE_MESSAGES, GET_CANDIDATE_MESSAGES_SUCCESS } from "./constants";
 import * as BackEnd from '../../../helpers/https';
 
 type GetCandidateThunkResult<R> = ThunkAction<R, undefined, undefined, Action>;
@@ -37,5 +37,16 @@ export const getCandidateFromBackSuccess = (candidate: any) =>({
 });
 export const getCandidateFromBackError = (errorMessage: string) => ({
 	type: GET_CANDIDATE_FROM_BACK_ERROR,
+	payload: errorMessage,
+});
+export const getCandidateMessages = () => ({
+	type: GET_CANDIDATE_MESSAGES,
+});
+export const getCandidateMessagesSuccess = (messages: any) => ({
+	type: GET_CANDIDATE_MESSAGES_SUCCESS,
+	payload: messages,
+});
+export const getCandidateMessagesError = (errorMessage:string) => ({
+	type: GET_CANDIDATE_MESSAGES_SUCCESS,
 	payload: errorMessage,
 });
