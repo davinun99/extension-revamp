@@ -1,3 +1,4 @@
+import { STORAGE_AUTH_ITEM_NAME } from '../content/redux/auth/constants';
 import { LINKEDIN_CANDIDATE_URL } from './constants';
 
 /**
@@ -8,6 +9,7 @@ import { LINKEDIN_CANDIDATE_URL } from './constants';
 export const isCandidateUrl = (url: string) :boolean => {
 	return decodeURI(url).startsWith(LINKEDIN_CANDIDATE_URL);
 };
+
 /**
  * It changes the CSS transform property of the extension's anchor element and the back arrow icon to
  * either expand or collapse the extension
@@ -23,3 +25,13 @@ export const handleExtensionExpansion = (extensionIsExpanded: boolean) => {
 		document.getElementById("extensionBackArrow")?.style.setProperty("transform", "rotate(180deg)");
 	}
 };
+
+/**
+ * It returns true if the localStorage item named `STORAGE_AUTH_ITEM_NAME` exists, otherwise it returns
+ * false
+ * @returns A boolean value.
+ */
+export const isAuthenticatedOnStorage = ():boolean => {
+	const authItem = localStorage.getItem(STORAGE_AUTH_ITEM_NAME);
+	return authItem ? true : false;
+}
