@@ -3,6 +3,7 @@ import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { getCandidateFromScrape } from '../../../helpers/scrape';
 import { GET_CANDIDATE_FROM_BACK, GET_CANDIDATE_SCRAPED, GET_CANDIDATE_FROM_BACK_SUCCESS, GET_CANDIDATE_FROM_BACK_ERROR } from "./constants";
+import * as BackEnd from '../../../helpers/https';
 
 type GetCandidateThunkResult<R> = ThunkAction<R, undefined, undefined, Action>;
 
@@ -17,11 +18,12 @@ export const getCandidateFromBack = () => ({
 export const getCandidateFromBackAction = (url: string): GetCandidateThunkResult<void> => {
 	return async (dispatch: ThunkDispatch<void, any, Action> ) => {
 		dispatch(getCandidateFromBack());
-		try {
-			
-		} catch (error) {
-			
-		}
+		const candidate:BackendCandidate|null = await BackEnd.getCandidate(url);
+		if(candidate){
+			dispatch(getCandidateFromBackSuccess(candidate));
+		}else {
+			dispatch(getCandidateFromBackError('There was an error getting the candidate'));
+		}	
 	};
 };
 export const getCandidateScrapedAction = (managingRecruiterId: number): GetCandidateThunkResult<void> => {

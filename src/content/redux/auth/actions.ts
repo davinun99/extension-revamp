@@ -1,6 +1,6 @@
 import { Action, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { LOGIN_MESSAGE } from "../../../helpers/constants";
-import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, SET_LAST_VISITED_PROFILES } from "./constants";
+import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT, SET_LAST_VISITED_PROFILES } from "./constants";
 
 /**
  * https://redux.js.org/usage/usage-with-typescript#type-checking-redux-thunks
@@ -22,6 +22,9 @@ export const loginAction = (): LoginThunkResult<void> => {
 
 export const login = () => ({
 	type: LOGIN,
+});
+export const logout = () => ({
+	type: LOGOUT
 });
 export const loginError = (errorMessage: string) => ({
 	type: LOGIN_ERROR,

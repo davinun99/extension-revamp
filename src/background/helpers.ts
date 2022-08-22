@@ -48,7 +48,7 @@ export const getAuthData = async ():Promise<AuthData|null> => {
  * It sends a message to all open LinkedIn tabs
  * @param {BackgroundMessage} message - BackgroundMessage - The message to send to the content script.
 */
-export const sendLoginInfoToExistingTabs = async(message: BackgroundMessage) => {
+export const sendMessageToExistingTabs = async(message: BackgroundMessage) => {
 	const tabs = await chrome.tabs.query({url: 'https://www.linkedin.com/*'});
 	tabs.forEach(tab => {
 		try{
@@ -68,3 +68,7 @@ export const getLastVisitedCandidates = async () => {
 	});
 	return result;
 }
+
+export const clearAuthCache = (callback:() => void) => {
+	chrome.identity.clearAllCachedAuthTokens(callback);
+};
