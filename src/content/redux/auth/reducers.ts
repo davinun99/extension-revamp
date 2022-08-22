@@ -1,6 +1,6 @@
 import axiosClient from "../../../helpers/Axios";
 import { LINKEDIN_CANDIDATE_URL } from "../../../helpers/constants";
-import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT, SET_LAST_VISITED_PROFILES } from "./constants";
+import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT, SET_LAST_VISITED_PROFILES, STORAGE_AUTH_ITEM_NAME } from "./constants";
 
 interface authState {
 	authData: null | AuthData,
@@ -44,6 +44,7 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 			if (token) {
 				axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 			}
+			localStorage.setItem(STORAGE_AUTH_ITEM_NAME, JSON.stringify(payload));
 			return {
 				...state,
 				authData: action.payload,
@@ -71,7 +72,8 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 				...state,
 				lastVisitedProfiles: filteredItems,
 			};
-		case LOGOUT: 
+		case LOGOUT:
+			localStorage.setItem(STORAGE_AUTH_ITEM_NAME, '');
 			return {
 				...INIT_STATE,
 			};
