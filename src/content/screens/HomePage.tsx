@@ -6,7 +6,7 @@ import { RootState } from '../redux/store';
 import { logout } from '../redux/auth/actions';
 
 interface IProps {
-	authData: AuthData, //from redux
+	authData: AuthData | null, //from redux
 	lastVisitedProfiles: chrome.history.HistoryItem[], //from redux
 	logout: Function, //from redux
 };
@@ -22,7 +22,7 @@ const HomePage:FC<IProps> = ({
 	return (
 		<main className='container HomeContainer mt-3'>
 			<section className="row mt-3">
-				<h3 className="col-10">Welcome {authData.google_user.name}!</h3>
+				<h3 className="col-10">Welcome {authData?.google_user.name}!</h3>
 				<div className="col-2 d-flex align-items-center">
 					<button onClick={handleLogout} title="Logout">
 						<LogOut/>
