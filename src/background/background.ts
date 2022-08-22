@@ -1,5 +1,6 @@
+import { CLEAR_AUTH_MESSAGE } from './../helpers/constants';
 import { LOGIN_MESSAGE, GET_AUTH_MESSAGE, URL_CHANGE_MESSAGE, LAST_PROFILES_VISITED_MESSAGE } from "../helpers/constants"
-import { login, getAuthData, sendLoginInfoToExistingTabs, getLastVisitedCandidates } from './helpers';
+import { login, getAuthData, sendMessageToExistingTabs, getLastVisitedCandidates, clearAuthCache } from './helpers';
 
 chrome.runtime.onMessage.addListener(async (request: BackgroundMessageJustType, sender, sendResponse ) => {
 	if (!sender.tab?.id){ //If there's not tabId, we don't need to process this msg
@@ -16,7 +17,7 @@ chrome.runtime.onMessage.addListener(async (request: BackgroundMessageJustType, 
 			error = { message: 'Error completing login process, please try again later.' };
 		}
 		const message: BackgroundMessage = { message: LOGIN_MESSAGE, payload, error };
-		sendLoginInfoToExistingTabs(message);
+		sendMessageToExistingTabs(message);
 	}else if(request.message === GET_AUTH_MESSAGE) { //Front is trying to get auth data
 		const authData: AuthData|null = await getAuthData();
 		if (authData) {
@@ -26,11 +27,15 @@ chrome.runtime.onMessage.addListener(async (request: BackgroundMessageJustType, 
 			// error = { message: 'Error getting your user information, please try logging in again.' };
 		}
 		const message: BackgroundMessage = { message: GET_AUTH_MESSAGE, payload, error };
-		sendLoginInfoToExistingTabs(message);
-	}else if(request.message === LAST_PROFILES_VISITED_MESSAGE) {
+		sendMessageToExistingTabs(message);
+	}else if(request.message === LAST_PROFILES_VISITED_MESSAGE) { //Front is trying to get last visited profiles
 		const lastVisitedProfiles:chrome.history.HistoryItem[] = await getLastVisitedCandidates();
 		const message:BackgroundMessage = { message: LAST_PROFILES_VISITED_MESSAGE, payload: lastVisitedProfiles, error: null };
 		chrome.tabs.sendMessage(sender.tab.id, message);
+	}else if(request.message === CLEAR_AUTH_MESSAGE){ //Front is trying to logout
+		clearAuthCache(() => {});
+		await chrome.storage.sync.clear();
+		sendMessageToExistingTabs({message: CLEAR_AUTH_MESSAGE, payload: null, error: null});
 	}
 });
 
