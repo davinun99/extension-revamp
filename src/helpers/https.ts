@@ -32,3 +32,14 @@ export const getCandidate = async (url:string): Promise<null|BackendCandidate> =
 	}
 	return null;
 };
+export const getRecruiter = async (userId:number): Promise<null|Recruiter> => {
+	try {
+		const { data } = await axiosClient.get(`/api/recruiters/byUserId/${userId}`);
+		if (data.length) {
+			return data[0];
+		}
+	} catch (error) {
+		handleBackendRequestError(error);
+	}
+	return null;
+}
