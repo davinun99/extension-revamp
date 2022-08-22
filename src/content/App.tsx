@@ -86,6 +86,7 @@ const App: FC<IProps> = ({
 			setIsFirstLoad(false);
 			handleUrlChange();
 		} else if (!isAuthenticated) {
+			setIsFirstLoad(true);
 			goToLogin();
 		}
 	}, [isAuthenticated, isFirstLoad]);

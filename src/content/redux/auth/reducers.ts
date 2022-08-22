@@ -54,7 +54,6 @@ const AuthReducer = (state = INIT_STATE, action: any): authState => {
 				isAuthenticated: false,
 			};
 		case GET_RECRUITER_SUCCESS:
-			console.log('recruiter', action.payload);
 			return {
 				...state,
 				recruiter: action.payload,

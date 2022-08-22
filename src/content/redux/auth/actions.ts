@@ -53,7 +53,7 @@ export const setLastVisitedProfiles = (lastVisitedProfiles: chrome.history.Histo
 export const getRecruiter = () => ({
 	type: GET_RECRUITER,
 });
-export const getRecruiterSuccess = (recruiter: any) => ({
+export const getRecruiterSuccess = (recruiter: Recruiter) => ({
 	type: GET_RECRUITER_SUCCESS,
 	payload: recruiter,
 });
