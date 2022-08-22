@@ -1,6 +1,7 @@
 import { Action, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { LOGIN_MESSAGE } from "../../../helpers/constants";
 import { GET_RECRUITER, GET_RECRUITER_ERROR, GET_RECRUITER_SUCCESS, LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT, SET_LAST_VISITED_PROFILES } from "./constants";
+import * as BackEnd from '../../../helpers/https';
 
 /**
  * https://redux.js.org/usage/usage-with-typescript#type-checking-redux-thunks
@@ -17,6 +18,17 @@ export const loginAction = (): LoginThunkResult<void> => {
 	return (dispatch: ThunkDispatch<undefined, undefined, Action> ) => {
 		dispatch(login());
 		chrome.runtime.sendMessage({message: LOGIN_MESSAGE});
+	};
+};
+export const getRecruiterAction = (userId: number): LoginThunkResult<void> => {
+	return async (dispatch: ThunkDispatch<undefined, undefined, Action> ) => {
+		dispatch(getRecruiter());
+		const recruiter:Recruiter|null = await BackEnd.getRecruiter(userId);
+		if(recruiter){
+			dispatch(getRecruiterSuccess(recruiter));
+		}else {
+			dispatch(getRecruiterError('There was an error getting the recruiter'));
+		}
 	};
 };
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Swal from 'sweetalert2';
 import { handleExtensionExpansion, isAuthenticatedOnStorage, isCandidateUrl } from '../helpers';
 import { CLEAR_AUTH_MESSAGE, GET_AUTH_MESSAGE, LAST_PROFILES_VISITED_MESSAGE, LOGIN_MESSAGE, URL_CHANGE_MESSAGE } from '../helpers/constants';
-import { loginSuccess, logout, setLastVisitedProfiles } from './redux/auth/actions';
+import { getRecruiterAction, loginSuccess, logout, setLastVisitedProfiles } from './redux/auth/actions';
 import { goToHome, goToCandidateScreen, goToLogin } from './redux/nav/actions';
 import { CANDIDATE_PAGE, HOME_PAGE, LOGIN_PAGE } from './redux/nav/constants';
 import { RootState } from './redux/store';
@@ -20,6 +20,7 @@ interface IProps {
 	currentPage: string, //from redux
 	isAuthenticated: boolean, //from redux
 	screenIsVisible: boolean, //from redux
+	recruiter: Recruiter, //from redux
 	goToHome: Function, //from redux
 	goToCandidateScreen: Function, //from redux
 	goToLogin: Function, //from redux
@@ -27,6 +28,7 @@ interface IProps {
 	loginSuccess: Function //from redux
 	setLastVisitedProfiles: Function //from redux
 	logout: Function //from redux
+	getRecruiterAction: Function //from redux
 };
 
 // This component is the entry point for the react app and acts as an navigator too
@@ -34,8 +36,10 @@ interface IProps {
 
 const App: FC<IProps> = ({
 	currentPage, isAuthenticated, screenIsVisible,
+	recruiter,
 	goToHome, loginSuccess,
 	goToCandidateScreen, goToLogin,
+	getRecruiterAction,
 	toggleScreen,
 	setLastVisitedProfiles,
 	logout,
@@ -46,18 +50,23 @@ const App: FC<IProps> = ({
 			return;
 		}
 		if (isCandidateUrl(url)) {
-			goToCandidateScreen(url, 1);
+			goToCandidateScreen(url, recruiter.recruiter_id);
 		} else {
 			goToHome();
 		}
 	};
+	const handleLoginSuccess = (authData: AuthData) => {
+		loginSuccess(authData);
+		getRecruiterAction(authData.nimbl_user.user_id);
+	}
 	useEffect(() => { //This useEffect defines the listeners for the events on the App
 		chrome.runtime.onMessage.addListener((request:BackgroundMessage, sender, sendResponse) => {
-			if (request.message === LOGIN_MESSAGE && request.payload) {// Recieve and process the login msg.
-				loginSuccess(request.payload);
+			const payload = request.payload;
+			if (request.message === LOGIN_MESSAGE && request.payload && 'tokens' in request.payload) {// Recieve and process the login msg.
+				handleLoginSuccess(request.payload);
 			}
-			else if (request.message === GET_AUTH_MESSAGE && request.payload) {
-				loginSuccess(request.payload);
+			else if (request.message === GET_AUTH_MESSAGE && request.payload && 'tokens' in request.payload) {
+				handleLoginSuccess(request.payload);
 			}
 			else if (request.message === URL_CHANGE_MESSAGE && request.payload && 'url' in request.payload) {
 				handleUrlChange(request.payload.url); //The url has changed, handle the redirection
@@ -112,7 +121,8 @@ const mapStateToProps = (state: RootState) => {
 	return {
 		currentPage: nav.currentPage,
 		isAuthenticated: auth.isAuthenticated,
-		screenIsVisible: layout.screenIsVisible, 
+		screenIsVisible: layout.screenIsVisible,
+		recruiter: auth.recruiter,
 	};
 }
 const mapDispatchToProps = (dispatch :ThunkDispatch<any, any, AnyAction>) => ({
@@ -123,5 +133,6 @@ const mapDispatchToProps = (dispatch :ThunkDispatch<any, any, AnyAction>) => ({
 	setLastVisitedProfiles: (lastVisitedProfiles: chrome.history.HistoryItem[]) => dispatch(setLastVisitedProfiles(lastVisitedProfiles)),
 	goToLogin: () => dispatch(goToLogin()),
 	logout: () => dispatch(logout()),
+	getRecruiterAction: (userId: number) => dispatch(getRecruiterAction(userId)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(App);
