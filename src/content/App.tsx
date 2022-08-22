@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Swal from 'sweetalert2';
-import { handleExtensionExpansion, isCandidateUrl } from '../helpers';
-import { GET_AUTH_MESSAGE, LAST_PROFILES_VISITED_MESSAGE, LOGIN_MESSAGE, URL_CHANGE_MESSAGE } from '../helpers/constants';
-import { loginSuccess, setLastVisitedProfiles } from './redux/auth/actions';
+import { handleExtensionExpansion, isAuthenticatedOnStorage, isCandidateUrl } from '../helpers';
+import { CLEAR_AUTH_MESSAGE, GET_AUTH_MESSAGE, LAST_PROFILES_VISITED_MESSAGE, LOGIN_MESSAGE, URL_CHANGE_MESSAGE } from '../helpers/constants';
+import { loginSuccess, logout, setLastVisitedProfiles } from './redux/auth/actions';
 import { goToHome, goToCandidateScreen, goToLogin } from './redux/nav/actions';
 import { CANDIDATE_PAGE, HOME_PAGE, LOGIN_PAGE } from './redux/nav/constants';
 import { RootState } from './redux/store';
@@ -25,7 +25,8 @@ interface IProps {
 	goToLogin: Function, //from redux
 	toggleScreen: Function //from redux
 	loginSuccess: Function //from redux
-	setLastVisitedProfiles: Function  //from redux
+	setLastVisitedProfiles: Function //from redux
+	logout: Function //from redux
 };
 
 // This component is the entry point for the react app and acts as an navigator too
@@ -37,10 +38,11 @@ const App: FC<IProps> = ({
 	goToCandidateScreen, goToLogin,
 	toggleScreen,
 	setLastVisitedProfiles,
+	logout,
 }) => {
 	const [isFirstLoad, setIsFirstLoad] = useState(true);
 	const handleUrlChange = (url: string = window.location.href) => {
-		if (!isAuthenticated) {
+		if (!isAuthenticatedOnStorage()) {
 			return;
 		}
 		if (isCandidateUrl(url)) {
@@ -62,7 +64,9 @@ const App: FC<IProps> = ({
 			}
 			else if (request.message === LAST_PROFILES_VISITED_MESSAGE && request.payload instanceof Array<chrome.history.HistoryItem> ) {
 				setLastVisitedProfiles(request.payload);
-			} else if (request.error) {
+			}else if(request.message === CLEAR_AUTH_MESSAGE) {
+				logout();
+			}else if (request.error) {
 				Swal.fire({ title: 'Error!' , text: `${request.error.message}. Message: ${request.message}`, icon: 'warning' });
 			}
 		});
@@ -118,5 +122,6 @@ const mapDispatchToProps = (dispatch :ThunkDispatch<any, any, AnyAction>) => ({
 	toggleScreen: () => dispatch(toggleScreen()),
 	setLastVisitedProfiles: (lastVisitedProfiles: chrome.history.HistoryItem[]) => dispatch(setLastVisitedProfiles(lastVisitedProfiles)),
 	goToLogin: () => dispatch(goToLogin()),
+	logout: () => dispatch(logout()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(App);
