@@ -4,3 +4,6 @@ export const LOGIN_SUCCESS:string = 'LOGIN_SUCCESS';
 export const LOGOUT:string = 'LOGOUT';
 export const SET_LAST_VISITED_PROFILES:string = 'SET_LAST_VISITED_PROFILES';
 export const STORAGE_AUTH_ITEM_NAME:string = 'STORAGE_AUTH_ITEM_NAME';
+export const GET_RECRUITER:string = 'GET_RECRUITER';
+export const GET_RECRUITER_SUCCESS:string = 'GET_RECRUITER_SUCCESS';
+export const GET_RECRUITER_ERROR:string = 'GET_RECRUITER_ERROR';

@@ -1,6 +1,6 @@
 import axiosClient from "../../../helpers/Axios";
 import { LINKEDIN_CANDIDATE_URL } from "../../../helpers/constants";
-import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT, SET_LAST_VISITED_PROFILES, STORAGE_AUTH_ITEM_NAME } from "./constants";
+import { GET_RECRUITER_ERROR, GET_RECRUITER_SUCCESS, LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT, SET_LAST_VISITED_PROFILES, STORAGE_AUTH_ITEM_NAME } from "./constants";
 
 interface authState {
 	authData: null | AuthData,
@@ -8,6 +8,7 @@ interface authState {
 	errorMessage: string,
 	isAuthenticated: boolean,
 	lastVisitedProfiles: chrome.history.HistoryItem[],
+	recruiter: any,
 }
 const INIT_STATE: authState = {
     authData: null,
@@ -15,11 +16,12 @@ const INIT_STATE: authState = {
 	errorMessage: '',
 	isAuthenticated: false,
 	lastVisitedProfiles: [],
+	recruiter: null,
 };
 // type ACTIONTYPE =
 // 	| { type: "increment"; payload: number }
 // 	| { type: "decrement"; payload: string };
-const AuthReducer = (state = INIT_STATE, action: any) => {
+const AuthReducer = (state = INIT_STATE, action: any): authState => {
 	switch(action.type) {
 		case LOGIN:
 			return {
@@ -48,8 +50,24 @@ const AuthReducer = (state = INIT_STATE, action: any) => {
 			return {
 				...state,
 				authData: action.payload,
+				isLoading: true,
+				isAuthenticated: false,
+			};
+		case GET_RECRUITER_SUCCESS:
+			return {
+				...state,
+				recruiter: action.payload,
 				isLoading: false,
 				isAuthenticated: true,
+				errorMessage: '',
+			};
+		case GET_RECRUITER_ERROR:
+			return {
+				...state,
+				isLoading: false,
+				isAuthenticated: false,
+				recruiter: null,
+				errorMessage: action.payload,
 			};
 		case SET_LAST_VISITED_PROFILES:
 			let historyItems:chrome.history.HistoryItem[] = action.payload;
