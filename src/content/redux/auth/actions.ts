@@ -1,6 +1,6 @@
 import { Action, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { LOGIN_MESSAGE } from "../../../helpers/constants";
-import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT, SET_LAST_VISITED_PROFILES } from "./constants";
+import { GET_RECRUITER, GET_RECRUITER_ERROR, GET_RECRUITER_SUCCESS, LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT, SET_LAST_VISITED_PROFILES } from "./constants";
 
 /**
  * https://redux.js.org/usage/usage-with-typescript#type-checking-redux-thunks
@@ -37,4 +37,15 @@ export const loginSuccess = (user: AuthData) => ({
 export const setLastVisitedProfiles = (lastVisitedProfiles: chrome.history.HistoryItem[]) => ({
 	type: SET_LAST_VISITED_PROFILES,
 	payload: lastVisitedProfiles,
+});
+export const getRecruiter = () => ({
+	type: GET_RECRUITER,
+});
+export const getRecruiterSuccess = (recruiter: any) => ({
+	type: GET_RECRUITER_SUCCESS,
+	payload: recruiter,
+});
+export const getRecruiterError = (errorMessage: string) => ({
+	type: GET_RECRUITER_ERROR,
+	payload: errorMessage,
 });
