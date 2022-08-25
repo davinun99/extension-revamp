@@ -52,3 +52,25 @@ export const saveCandidate = async (candidate: SimpleCandidate): Promise<null|Si
 	}
 	return null;
 }
+export const getCandidateNotes = async (candidateId:number): Promise<null|BackendCandidateNote[]> => {
+	try {
+		const { data } = await axiosClient.get(`/api/candidatenotes/${candidateId}/candidate`);
+		if (Array.isArray(data)) {
+			return data;
+		}
+	} catch (error) {
+		handleBackendRequestError(error);
+	}
+	return null;
+};
+export const saveCandidateNote = async (candidateNote:SimpleCandidateNote): Promise<null|SimpleCandidateNote> => {
+	try {
+		const { data } = await axiosClient.post(`/api/candidatenotes`, candidateNote);
+		if (data.length) {
+			return data[0];
+		}
+	} catch (error) {
+		handleBackendRequestError(error);
+	}
+	return null;
+};

@@ -62,15 +62,15 @@ type SimpleCandidate = {
 	location: string,
 }
 type Recruiter = {
-		city: "Barcelona",
-		kpi_level: 1,
-		profile_photo: "https://nimbl-dev.s3.eu-west-2.amazonaws.com/recruiters/john.jpg",
-		recruiter_email: "john@nimbl.ai",
-		recruiter_first_name: "John",
-		recruiter_id: 8,
-		recruiter_last_name: "Villarde",
-		recruiter_type_id: 2,
-		user_id: 9
+	city: "Barcelona",
+	kpi_level: 1,
+	profile_photo: "https://nimbl-dev.s3.eu-west-2.amazonaws.com/recruiters/john.jpg",
+	recruiter_email: "john@nimbl.ai",
+	recruiter_first_name: "John",
+	recruiter_id: 8,
+	recruiter_last_name: "Villarde",
+	recruiter_type_id: 2,
+	user_id: 9
 }
 type CandidateDocument = {
 	candidate_document_id: 16,
@@ -142,4 +142,30 @@ type BackendCandidate = {
         }
     ],
     candidate_document: CandidateDocument[]
+}
+type BackendCandidateNote = {
+	candidate_id: number,
+	candidate_note_id: number,
+	job_id: null | number,
+	note_date: "2022-03-14T02:00:44.881Z",
+	note_description: string,
+	note_type_id: number,
+	recruiter_id: number,
+	recruiter: Array<Recruiter>,
+	candidate: Array<SimpleCandidate>,
+	job: Array<any>,
+	note_type: [
+		{
+			note_type: "LinkedIn Message",
+			note_type_id: 1
+		}
+	]
+}
+type SimpleCandidateNote = {
+	candidate_id: number,
+	note_type_id: number,
+	job_id: null | number,
+	note_date: Date,
+	note_description: string,
+	recruiter_id: number,
 }
