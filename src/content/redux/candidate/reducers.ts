@@ -1,8 +1,10 @@
-import { GET_CANDIDATE_SCRAPED } from "./constants";
+import { GET_CANDIDATE_SCRAPED, SAVE_CANDIDATE, SAVE_CANDIDATE_ERROR, SAVE_CANDIDATE_SUCCESS } from "./constants";
 
 const INIT_STATE = {
 	scrapedCandidateInfo: null,
-	backenCandidateInfo: null,
+	backendCandidateInfo: null,
+	errorMessage: '',
+	isLoading: true,
 };
 // type ACTIONTYPE =
 // 	| { type: "increment"; payload: number }
@@ -13,6 +15,26 @@ const CandidateReducer = (state = INIT_STATE, action: any) => {
 			return {
 				...state,
 				scrapedCandidateInfo: action.payload,
+			};
+		case SAVE_CANDIDATE:
+			return {
+				...state,
+				errorMessage: '',
+				isLoading: true,
+			};
+		case SAVE_CANDIDATE_SUCCESS:
+			return {
+				...state,
+				backendCandidateInfo: action.payload,
+				errorMessage: '',
+				isLoading: false,
+			};
+		case SAVE_CANDIDATE_ERROR:
+			return {
+				...state,
+				backendCandidateInfo: null,
+				errorMessage: action.payload,
+				isLoading: false,
 			};
 		default:
 			return state;

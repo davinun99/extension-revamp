@@ -43,3 +43,12 @@ export const getRecruiter = async (userId:number): Promise<null|Recruiter> => {
 	}
 	return null;
 }
+export const saveCandidate = async (candidate: SimpleCandidate): Promise<null|SimpleCandidate> => {
+	try {
+		const { data } = await axiosClient.post(`/api/candidates`, candidate);
+		return data;
+	} catch (error) {
+		handleBackendRequestError(error);
+	}
+	return null;
+}
