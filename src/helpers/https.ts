@@ -63,7 +63,7 @@ export const getCandidateNotes = async (candidateId:number): Promise<null|Backen
 	}
 	return null;
 };
-export const saveCandidateNote = async (candidateNote:SimpleCandidateNote): Promise<null|SimpleCandidateNote> => {
+export const saveCandidateNote = async (candidateNote:SimpleCandidateNote): Promise<null|CandidateNoteWithId> => {
 	try {
 		const { data } = await axiosClient.post(`/api/candidatenotes`, candidateNote);
 		if (data.length) {

@@ -2,7 +2,7 @@ import { ThunkDispatch } from '@reduxjs/toolkit';
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { getCandidateFromScrape } from '../../../helpers/scrape';
-import { GET_CANDIDATE_FROM_BACK, GET_CANDIDATE_SCRAPED, GET_CANDIDATE_FROM_BACK_SUCCESS, GET_CANDIDATE_FROM_BACK_ERROR, SAVE_CANDIDATE, GET_CANDIDATE_NOTES, GET_CANDIDATE_NOTES_SUCCESS, GET_CANDIDATE_NOTES_ERROR } from "./constants";
+import { GET_CANDIDATE_FROM_BACK, GET_CANDIDATE_SCRAPED, GET_CANDIDATE_FROM_BACK_SUCCESS, GET_CANDIDATE_FROM_BACK_ERROR, SAVE_CANDIDATE, GET_CANDIDATE_NOTES, GET_CANDIDATE_NOTES_SUCCESS, GET_CANDIDATE_NOTES_ERROR, SAVE_CANDIDATE_NOTE, SAVE_CANDIDATE_NOTE_SUCCESS, SAVE_CANDIDATE_NOTE_ERROR } from "./constants";
 import * as BackEnd from '../../../helpers/https';
 
 type CandidateThunkResult<R> = ThunkAction<R, undefined, undefined, Action>;
@@ -35,6 +35,17 @@ export const getCandidateNotesAction = (candidateId:number): CandidateThunkResul
 			dispatch(getCandidateNotesSuccess(notes));
 		}else {
 			dispatch(getCandidateNotesError('There was an error getting candidate notes'));
+		}	
+	};
+};
+export const saveCandidateNoteAction = (candidateNote:SimpleCandidateNote): CandidateThunkResult<void> => {
+	return async (dispatch: ThunkDispatch<void, any, Action> ) => {
+		dispatch(saveCandidateNote());
+		const note:CandidateNoteWithId|null = await BackEnd.saveCandidateNote(candidateNote);
+		if(note){
+			dispatch(saveCandidateNoteSuccess(note));
+		}else {
+			dispatch(saveCandidateNoteError('There was an error saving candidate notes'));
 		}	
 	};
 };
@@ -82,5 +93,16 @@ export const saveCandidateSuccess = (candidate:SimpleCandidate) => ({
 });
 export const saveCandidateError = (errorMessage:string) => ({
 	type: SAVE_CANDIDATE,
+	payload: errorMessage,
+});
+export const saveCandidateNote = () => ({
+	type: SAVE_CANDIDATE_NOTE,
+});
+export const saveCandidateNoteSuccess = (note:CandidateNoteWithId) => ({
+	type: SAVE_CANDIDATE_NOTE_SUCCESS,
+	payload: note,
+});
+export const saveCandidateNoteError = (errorMessage:string) => ({
+	type: SAVE_CANDIDATE_NOTE_ERROR,
 	payload: errorMessage,
 });

@@ -82,43 +82,26 @@ type CandidateDocument = {
 	s3_bucket: "nimbl-dev",
 	s3_document_key: null
 }
-type BackendCandidate = {
+interface CandidateWithId extends SimpleCandidate {
+	candidate_id: number
+}
+interface BackendCandidate extends CandidateWithId {
 	candidate_email: "nundavid99@gmail.com",
-    candidate_first_name: "David",
-    candidate_full_name: "David Nuñez B",
-    candidate_id: 5446,
-    candidate_last_name: "Nuñez B",
     candidate_phone: "0981350027",
     candidate_rating_id: null | number,
-    candidate_source_id: 1,
     candidate_status_id: 1,
     city_id: null | number,
     compliance_status: null,
-    contract: true,
     country_id: null | number,
-    created_date: "2021-04-19T16:08:59.254Z",
-    current_employer: "",
-    current_employer_logo: "",
+    created_date: Date,
     degree_title: null,
     experience_start_date: null,
     github: null,
     ideal_salary_end: null,
     ideal_salary_start: null,
-    job_title: "Fullstack Engineer",
-    linked_in: "https://www.linkedin.com/in/david-nunhez/",
-    location: "Paraguay ",
-    managing_recruiter_id: 8,
     notice_period: null,
-    permanent: true,
-    photo: "https://d2ikcu9c8ruej.cloudfront.net/5446/photo/profile_1642256734124.jpg",
-    source_recruiter_id: 8,
     twitter: null,
-    university: "",
-    university_logo: "",
     user_id: 14,
-    willing_to_relocate: 2,
-    work_onsite: true,
-    work_remotely: true,
     candidate_source: [
         {
             "candidate_source_id": 1,
@@ -143,29 +126,24 @@ type BackendCandidate = {
     ],
     candidate_document: CandidateDocument[]
 }
-type BackendCandidateNote = {
-	candidate_id: number,
-	candidate_note_id: number,
-	job_id: null | number,
-	note_date: "2022-03-14T02:00:44.881Z",
-	note_description: string,
-	note_type_id: number,
-	recruiter_id: number,
-	recruiter: Array<Recruiter>,
-	candidate: Array<SimpleCandidate>,
-	job: Array<any>,
-	note_type: [
-		{
-			note_type: "LinkedIn Message",
-			note_type_id: 1
-		}
-	]
+type NoteType = {
+	note_type: "LinkedIn Message",
+	note_type_id: 1
 }
 type SimpleCandidateNote = {
 	candidate_id: number,
 	note_type_id: number,
-	job_id: null | number,
 	note_date: Date,
 	note_description: string,
 	recruiter_id: number,
+	job_id: null | number,
+}
+interface CandidateNoteWithId extends SimpleCandidateNote {
+	candidate_note_id: number
+}
+interface BackendCandidateNote extends CandidateNoteWithId {
+	recruiter: Array<Recruiter>
+	candidate: Array<SimpleCandidate>
+	job: Array<any>
+	note_type: Array<NoteType>
 }
