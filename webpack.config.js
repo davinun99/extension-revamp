@@ -17,7 +17,7 @@ module.exports = {
 		path: resolve(__dirname, 'build'),
 	},
 	resolve: {
-		extensions: ['.js', '.jsx', '.ts', '.tsx', '.scss'],
+		extensions: ['.js', '.jsx', '.ts', '.tsx', '.scss', '.css'],
 	},
 	module: {
 		rules: [
@@ -27,7 +27,7 @@ module.exports = {
 				use: 'ts-loader',
 			},
 			{
-				test: /\.scss$/,
+				test: /\.s?css$/,
 				use: ['style-loader','css-loader','sass-loader']
 			},
 		],

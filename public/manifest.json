@@ -12,8 +12,7 @@
 			"https://www.linkedin.com/*"
 		],
 		"css": [
-			"styles/content.css",
-			"styles/bootstrap.min.css"
+			"styles/content.css"
 		],
 		"js": [
 			"content.js"
