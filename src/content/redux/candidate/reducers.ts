@@ -1,4 +1,4 @@
-import { GET_CANDIDATE_NOTES, GET_CANDIDATE_NOTES_ERROR, GET_CANDIDATE_NOTES_SUCCESS, GET_CANDIDATE_SCRAPED, SAVE_CANDIDATE, SAVE_CANDIDATE_ERROR, SAVE_CANDIDATE_NOTE, SAVE_CANDIDATE_NOTE_ERROR, SAVE_CANDIDATE_NOTE_SUCCESS, SAVE_CANDIDATE_SUCCESS } from "./constants";
+import { GET_CANDIDATE_FROM_BACK, GET_CANDIDATE_FROM_BACK_ERROR, GET_CANDIDATE_FROM_BACK_SUCCESS, GET_CANDIDATE_NOTES, GET_CANDIDATE_NOTES_ERROR, GET_CANDIDATE_NOTES_SUCCESS, GET_CANDIDATE_SCRAPED, SAVE_CANDIDATE, SAVE_CANDIDATE_ERROR, SAVE_CANDIDATE_NOTE, SAVE_CANDIDATE_NOTE_ERROR, SAVE_CANDIDATE_NOTE_SUCCESS, SAVE_CANDIDATE_SUCCESS } from "./constants";
 
 const INIT_STATE = {
 	scrapedCandidateInfo: null,
@@ -17,6 +17,27 @@ const CandidateReducer = (state = INIT_STATE, action: any) => {
 			return {
 				...state,
 				scrapedCandidateInfo: action.payload,
+			};
+		case GET_CANDIDATE_FROM_BACK:
+			return {
+				...state,
+				isLoading: true,
+				backendCandidateInfo: null,
+				errorMessage: '',
+			};
+		case GET_CANDIDATE_FROM_BACK_SUCCESS:
+			return {
+				...state,
+				isLoading: false,
+				errorMessage: '',
+				backendCandidateInfo: action.payload,
+			};
+		case GET_CANDIDATE_FROM_BACK_ERROR: 
+			return {
+				...state,
+				isLoading: false,
+				errorMessage: action.payload,
+				backendCandidateInfo: null,
 			};
 		case SAVE_CANDIDATE:
 			return {
